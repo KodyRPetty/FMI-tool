@@ -75,7 +75,7 @@ def analyze_twitter_users(df):
         bottom += value
     ax.set_xlabel("Social Media User", fontsize=16)
     ax.set_ylabel("Total # of FMI indicators", fontsize=16)
-    ax.set_title(f"The FMI-y of them all: {top_user_name}", fontsize=20)
+    ax.set_title(f"The FMI-y-est of them all: {top_user_name}", fontsize=20)
     ax.set_xticks([0])
     ax.set_xticklabels([top_user_name], fontsize=14)
 
