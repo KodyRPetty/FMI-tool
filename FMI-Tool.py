@@ -30,9 +30,9 @@ def analyze_twitter_users(df):
     if likelihood == "FMI LOW likelihood":
         top_users = user_columns_above_3[user_columns_above_3 < 3].sort_values(ascending=False).head(20)
     elif likelihood == "FMI MEDIUM likelihood":
-        top_users = user_columns_above_3[(user_columns_above_3 >= 3) & (user_columns_above_3 < 8)].sort_values(ascending=False).head(20)
+        top_users = user_columns_above_3[(user_columns_above_3 >= 3) & (user_columns_above_3 < 100)].sort_values(ascending=False).head(20)
     else:
-        top_users = user_columns_above_3[user_columns_above_3 >= 8].sort_values(ascending=False).head(20)
+        top_users = user_columns_above_3[user_columns_above_3 >= 100].sort_values(ascending=False).head(20)
 
     fig, ax = plt.subplots(figsize=(12, 6))
     ax.bar(range(len(top_users)), top_users.values, color='black')
