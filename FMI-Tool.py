@@ -42,7 +42,7 @@ def analyze_twitter_users(df):
     ax.tick_params(axis='x', rotation=90)
 
     # Create a list of the top user names in the correct order
-    top_user_names = df.iloc[top_users.index, 0].tolist()
+    top_user_names = df.iloc[top_users.index, 1].tolist()  # Changed index from 0 to 1 to get usernames
 
     ax.set_xticks(range(len(top_users)))
     ax.set_xticklabels(top_user_names)
