@@ -62,6 +62,25 @@ def analyze_twitter_users(df):
 
     st.pyplot(fig)
 
+    # Create a stacked bar chart for the top social media user
+    top_user = user_columns_above_3.sort_values(ascending=False).head(1)
+    top_user_name = df.iloc[top_user.index[0], 0]
+
+    fig, ax = plt.subplots(figsize=(18, 6))
+    ax.bar(range(len(analysis_columns)), top_user.values, color=[f'C{i}' for i in range(len(analysis_columns))])
+    ax.set_xlabel("Column", fontsize=12)
+    ax.set_ylabel("Number of FMI-related indicators")
+    ax.set_title(f"The FMI-y of them all: {top_user_name}")
+
+    # Add column labels to the bars
+    for i, v in enumerate(top_user.values):
+        ax.text(i, v + 0.5, analysis_columns[i], ha='center', fontsize=8)
+
+    ax.set_xticks(range(len(analysis_columns)))
+    ax.set_xticklabels(analysis_columns, rotation=90, fontsize=10)
+
+    st.pyplot(fig)
+
 # Streamlit app
 st.title("Social Media Data Analysis")
 
