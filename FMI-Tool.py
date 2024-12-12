@@ -68,7 +68,7 @@ def analyze_twitter_users(df):
     top_user = df[analysis_columns].iloc[top_user_total_sum]
 
     fig, ax = plt.subplots(figsize=(24, 12))
-    ax.bar(top_user_name, top_user.sum(), color=[f'C{i}' for i in range(len(analysis_columns))])
+    ax.bar(top_user_name, top_user, color=[f'C{i}' for i in range(len(analysis_columns))])
     ax.set_xlabel("Social Media User", fontsize=16)
     ax.set_ylabel("Total # of FMI indicators", fontsize=16)
     ax.set_title(f"The FMI-y of them all", fontsize=20)
