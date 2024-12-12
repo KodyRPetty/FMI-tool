@@ -62,9 +62,10 @@ def analyze_twitter_users(df):
 
     st.pyplot(fig)
 
-    # Create a stacked bar chart for the top social media user
-    top_user = df[analysis_columns].iloc[user_columns_above_3.sort_values(ascending=False).index[0]]
-    top_user_name = df.iloc[user_columns_above_3.sort_values(ascending=False).index[0], 0]
+    # Create a stacked bar chart for the social media user with the highest total sum of columns
+    top_user_total_sum = df[analysis_columns].sum(axis=1).sort_values(ascending=False).index[0]
+    top_user_name = df.iloc[top_user_total_sum, 0]
+    top_user = df[analysis_columns].iloc[top_user_total_sum]
 
     fig, ax = plt.subplots(figsize=(24, 12))
     ax.bar(top_user_name, top_user.sum(), color=[f'C{i}' for i in range(len(analysis_columns))])
