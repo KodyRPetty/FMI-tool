@@ -31,9 +31,10 @@ def analyze_twitter_users(df):
     fig, ax = plt.subplots(figsize=(12, 6))
     ax.bar(top_users.index, top_users.values, color='black')
     ax.set_xlabel("Social Media User")
-    ax.set_ylabel("Number of Columns > 3")
-    ax.set_title("Top 20 Social Media Users by Columns Above 3")
+    ax.set_ylabel("Number of FMI-related indicators")
+    ax.set_title("Top FMI-spreading Social Media Users")
     ax.tick_params(axis='x', rotation=90)
+    ax.set_xticklabels(top_users.index)
     st.pyplot(fig)
 
 # Streamlit app
