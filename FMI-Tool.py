@@ -45,16 +45,16 @@ def analyze_twitter_users(df):
     # Create a bar chart showing the top 5 Social Media users by number of columns above 3
     top_users = user_columns_above_3.sort_values(ascending=False).head(5)
 
-    fig, ax = plt.subplots(figsize=(18, 10))
+    fig, ax = plt.subplots(figsize=(24, 12))
     ax.bar(range(len(top_users)), top_users.values, color='black')
-    ax.set_xlabel("Social Media User", fontsize=12)
-    ax.set_ylabel("Number of FMI-related indicators")
-    ax.set_title("Top 5 FMI-spreading Social Media Users")
+    ax.set_xlabel("Social Media User", fontsize=16)
+    ax.set_ylabel("Number of FMI-related indicators", fontsize=16)
+    ax.set_title("Top 5 FMI-spreading Social Media Users", fontsize=20)
 
     # Set the x-axis tick labels
     top_user_names = df.iloc[top_users.index, 0].tolist()
     ax.set_xticks(range(len(top_user_names)))
-    ax.set_xticklabels(top_user_names, rotation=90, fontsize=10)
+    ax.set_xticklabels(top_user_names, rotation=90, fontsize=14)
 
     # Adjust the y-axis limits to ensure all bars are visible
     if np.isfinite(top_users.max()):
@@ -66,17 +66,18 @@ def analyze_twitter_users(df):
     top_user = df[analysis_columns].iloc[user_columns_above_3.sort_values(ascending=False).index[0]]
     top_user_name = df.iloc[user_columns_above_3.sort_values(ascending=False).index[0], 0]
 
-    fig, ax = plt.subplots(figsize=(18, 6))
-    ax.bar(range(len(analysis_columns)), top_user, color=[f'C{i}' for i in range(len(analysis_columns))])
-    ax.set_xlabel("Column", fontsize=12)
-    ax.set_ylabel("Number of FMI-related indicators")
-    ax.set_title(f"The FMI-y-ist of them all: {top_user_name}")
+    fig, ax = plt.subplots(figsize=(24, 12))
+    ax.stackplot(range(len(analysis_columns)), top_user, colors=[f'C{i}' for i in range(len(analysis_columns))])
+    ax.set_xlabel("Column", fontsize=16)
+    ax.set_ylabel("Number of FMI-related indicators", fontsize=16)
+    ax.set_title(f"The FMI-y of them all: {top_user_name}", fontsize=20)
 
     ax.set_xticks(range(len(analysis_columns)))
-    ax.set_xticklabels(analysis_columns, rotation=90, fontsize=10)
+    ax.set_xticklabels(analysis_columns, rotation=90, fontsize=14)
 
-    # Create a stacked bar chart
-    ax.stackplot(range(len(analysis_columns)), top_user, colors=[f'C{i}' for i in range(len(analysis_columns))])
+    # Add a legend
+    legend_elements = [plt.Rectangle((0, 0), 1, 1, color=f'C{i}', label=col) for i, col in enumerate(analysis_columns)]
+    ax.legend(handles=legend_elements, loc='center left', bbox_to_anchor=(1, 0.5), fontsize=14)
 
     st.pyplot(fig)
 
