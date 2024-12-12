@@ -49,27 +49,23 @@ def analyze_twitter_users(df):
         top_users = user_columns_above_3[(user_columns_above_3 >= 3) & (user_columns_above_3 < 100)].sort_values(ascending=False).head(5)
     else:
         top_high_users = user_columns_above_3[user_columns_above_3 >= 100].sort_values(ascending=False)
-        if len(top_high_users) > 5:
-            top_users = top_high_users.head(5)
+        if len(top_high_users) > 0:
+            # Create a scaled bar chart for the "FMI HIGH likelihood" case
+            fig, ax = plt.subplots(figsize=(18, 10))
+            ax.bar(range(len(top_high_users)), top_high_users.values / top_high_users.max(), color='black')
+            ax.set_xlabel("Social Media User", fontsize=12)
+            ax.set_ylabel("Scaled Number of FMI-related indicators")
+            ax.set_title("Top FMI-spreading Social Media Users (Scaled)")
+
+            # Set the x-axis tick labels
+            top_user_names = df.iloc[top_high_users.index, 0].tolist()
+            ax.set_xticks(range(len(top_user_names)))
+            ax.set_xticklabels(top_user_names, rotation=90, fontsize=10)
+
+            st.pyplot(fig)
         else:
-            top_users = top_high_users
-
-    fig, ax = plt.subplots(figsize=(18, 10))
-    ax.bar(range(len(top_users)), top_users.values, color='black')
-    ax.set_xlabel("Social Media User", fontsize=12)
-    ax.set_ylabel("Number of FMI-related indicators")
-    ax.set_title("Top 5 FMI-spreading Social Media Users")
-
-    # Set the x-axis tick labels
-    top_user_names = df.iloc[top_users.index, 0].tolist()
-    ax.set_xticks(range(len(top_user_names)))
-    ax.set_xticklabels(top_user_names, rotation=90, fontsize=10)
-
-    # Adjust the y-axis limits to ensure all bars are visible
-    if np.isfinite(top_users.max()):
-        ax.set_ylim(bottom=0, top=top_users.max() + 1)
-
-    st.pyplot(fig)
+            st.write("No users with a high number of FMI-related indicators.")
+            return
 
 # Streamlit app
 st.title("Social Media Data Analysis")
