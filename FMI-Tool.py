@@ -54,13 +54,13 @@ def analyze_twitter_users(df):
     ax.set_xlabel("Social Media User", fontsize=10)
     ax.set_ylabel("Number of FMI-related indicators")
     ax.set_title("Top 10 FMI-spreading Social Media Users")
-    ax.tick_params(axis='x', rotation=90, labelsize=8)
+    ax.tick_params(axis='x', rotation=90, labelsize=6)  # Decrease the font size of the x-axis labels
 
     # Create a list of the top user names in the correct order
     top_user_names = df.iloc[top_users.index, 0].tolist()
 
     ax.set_xticks(range(len(top_users)))
-    ax.set_xticklabels(top_user_names)
+    ax.set_xticklabels(top_user_names, rotation=90, fontsize=6)  # Decrease the font size of the x-axis labels
     st.pyplot(fig)
 
 # Streamlit app
