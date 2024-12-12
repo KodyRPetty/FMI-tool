@@ -68,10 +68,13 @@ def analyze_twitter_users(df):
     top_user = df[analysis_columns].iloc[top_user_total_sum]
 
     fig, ax = plt.subplots(figsize=(24, 12))
-    ax.bar(top_user_name, top_user, color=[f'C{i}' for i in range(len(analysis_columns))])
-    ax.set_xlabel("Social Media User", fontsize=16)
+    ax.stackplot(range(len(analysis_columns)), top_user, colors=[f'C{i}' for i in range(len(analysis_columns))])
+    ax.set_xlabel("Column", fontsize=16)
     ax.set_ylabel("Total # of FMI indicators", fontsize=16)
-    ax.set_title(f"The FMI-y of them all", fontsize=20)
+    ax.set_title(f"The FMI-y of them all: {top_user_name}", fontsize=20)
+
+    ax.set_xticks(range(len(analysis_columns)))
+    ax.set_xticklabels(analysis_columns, rotation=90, fontsize=14)
 
     # Add a legend
     legend_elements = [plt.Rectangle((0, 0), 1, 1, color=f'C{i}', label=col) for i, col in enumerate(analysis_columns)]
