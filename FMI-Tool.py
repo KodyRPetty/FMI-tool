@@ -18,19 +18,22 @@ def analyze_twitter_users(df):
     else:
         likelihood = "FMI HIGH likelihood"
 
-    # Display the likelihood in a colorful box
+    # Display the likelihood in a colorful box with the number of users
     if likelihood == "FMI LOW likelihood":
-        st.markdown(f"<div style='background-color:green;color:white;padding:10px;border-radius:5px;text-align:center;'>{likelihood}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='background-color:green;color:white;padding:10px;border-radius:5px;text-align:center;'>{likelihood} ({num_users_above_3} Twitter Users)</div>", unsafe_allow_html=True)
     elif likelihood == "FMI MEDIUM likelihood":
-        st.markdown(f"<div style='background-color:orange;color:white;padding:10px;border-radius:5px;text-align:center;'>{likelihood}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='background-color:orange;color:white;padding:10px;border-radius:5px;text-align:center;'>{likelihood} ({num_users_above_3} Twitter Users)</div>", unsafe_allow_html=True)
     else:
-        st.markdown(f"<div style='background-color:red;color:white;padding:10px;border-radius:5px;text-align:center;'>{likelihood}</div>", unsafe_allow_html=True)
+        st.markdown(f"<div style='background-color:red;color:white;padding:10px;border-radius:5px;text-align:center;'>{likelihood} ({num_users_above_3} Twitter Users)</div>", unsafe_allow_html=True)
 
-    # Create a bar chart showing the number of users with each column count
-    fig, ax = plt.subplots()
-    sns.barplot(x=user_columns_above_3.value_counts().index, y=user_columns_above_3.value_counts())
-    ax.set_xlabel("Number of Columns > 3")
-    ax.set_ylabel("Number of Users")
+    # Create a bar chart showing the top 20 Twitter users by number of columns above 3
+    top_users = user_columns_above_3.sort_values(ascending=False).head(20)
+    fig, ax = plt.subplots(figsize=(12, 6))
+    sns.barplot(x=top_users.index, y=top_users.values, ax=ax)
+    ax.set_xlabel("Twitter User")
+    ax.set_ylabel("Number of Columns > 3")
+    ax.set_title("Top 20 Twitter Users by Columns Above 3")
+    ax.tick_params(axis='x', rotation=90)
     st.pyplot(fig)
 
 # Streamlit app
