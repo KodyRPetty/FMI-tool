@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 def analyze_twitter_users(df):
     # Get the list of column names
@@ -61,7 +62,8 @@ def analyze_twitter_users(df):
     ax.set_xticklabels(top_user_names, rotation=90, fontsize=8)
 
     # Adjust the y-axis limits to ensure all bars are visible
-    ax.set_ylim(bottom=0, top=top_users.max() + 1)
+    if np.isfinite(top_users.max()):
+        ax.set_ylim(bottom=0, top=top_users.max() + 1)
 
     st.pyplot(fig)
 
