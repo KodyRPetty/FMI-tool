@@ -43,17 +43,7 @@ def analyze_twitter_users(df):
         st.markdown(f"<div style='background-color:red;color:white;padding:10px;border-radius:5px;text-align:center;'>{likelihood} ({num_users_above_3} Social Media Users)</div>", unsafe_allow_html=True)
 
     # Create a bar chart showing the top 5 Social Media users by number of columns above 3
-    if likelihood == "FMI LOW likelihood":
-        top_users = user_columns_above_3[user_columns_above_3 < 3].sort_values(ascending=False).head(5)
-    elif likelihood == "FMI MEDIUM likelihood":
-        top_users = user_columns_above_3[(user_columns_above_3 >= 3) & (user_columns_above_3 < 100)].sort_values(ascending=False).head(5)
-    else:
-        top_high_users = user_columns_above_3[user_columns_above_3 >= 100].sort_values(ascending=False)
-        if len(top_high_users) > 0:
-            top_users = top_high_users.head(5)
-        else:
-            st.write("No users with a high number of FMI-related indicators.")
-            return
+    top_users = user_columns_above_3.sort_values(ascending=False).head(5)
 
     fig, ax = plt.subplots(figsize=(18, 10))
     ax.bar(range(len(top_users)), top_users.values, color='black')
