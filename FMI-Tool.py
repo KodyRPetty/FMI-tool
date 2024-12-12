@@ -28,21 +28,21 @@ def analyze_twitter_users(df):
 
     # Create a bar chart showing the top 20 Social Media users by number of columns above 3
     if likelihood == "FMI LOW likelihood":
-        top_users = user_columns_above_3[user_columns_above_3 < 3].sort_values(ascending=False).head(20)
+        top_users = user_columns_above_3[user_columns_above_3 < 3].sort_values(ascending=False).head(30)
     elif likelihood == "FMI MEDIUM likelihood":
-        top_users = user_columns_above_3[(user_columns_above_3 >= 3) & (user_columns_above_3 < 100)].sort_values(ascending=False).head(20)
+        top_users = user_columns_above_3[(user_columns_above_3 >= 3) & (user_columns_above_3 < 100)].sort_values(ascending=False).head(30)
     else:
-        top_users = user_columns_above_3[user_columns_above_3 >= 100].sort_values(ascending=False).head(20)
+        top_users = user_columns_above_3[user_columns_above_3 >= 100].sort_values(ascending=False).head(30)
 
-    fig, ax = plt.subplots(figsize=(12, 6))
+    fig, ax = plt.subplots(figsize=(16, 8))
     ax.bar(range(len(top_users)), top_users.values, color='black')
-    ax.set_xlabel("Social Media User")
+    ax.set_xlabel("Social Media User", fontsize=10)
     ax.set_ylabel("Number of FMI-related indicators")
     ax.set_title("Top FMI-spreading Social Media Users")
-    ax.tick_params(axis='x', rotation=90)
+    ax.tick_params(axis='x', rotation=90, labelsize=8)
 
     # Create a list of the top user names in the correct order
-    top_user_names = df.iloc[top_users.index, 1].tolist()  # Changed index from 0 to 1 to get usernames
+    top_user_names = df.iloc[top_users.index, 1].tolist()
 
     ax.set_xticks(range(len(top_users)))
     ax.set_xticklabels(top_user_names)
