@@ -42,13 +42,16 @@ def analyze_twitter_users(df):
     else:
         st.markdown(f"<div style='background-color:red;color:white;padding:10px;border-radius:5px;text-align:center;'>{likelihood} ({num_users_above_3} Social Media Users)</div>", unsafe_allow_html=True)
 
-    # Create a bar chart showing the top 10 Social Media users by number of columns above 3
+    # Create a bar chart showing the top users by number of columns above 3
     if likelihood == "FMI LOW likelihood":
-        top_users = user_columns_above_3[user_columns_above_3 < 3].sort_values(ascending=False).head(10)
+        top_users = user_columns_above_3[user_columns_above_3 < 3].sort_values(ascending=False)
     elif likelihood == "FMI MEDIUM likelihood":
-        top_users = user_columns_above_3[(user_columns_above_3 >= 3) & (user_columns_above_3 < 100)].sort_values(ascending=False).head(10)
+        top_users = user_columns_above_3[(user_columns_above_3 >= 3) & (user_columns_above_3 < 100)].sort_values(ascending=False)
     else:
-        top_users = user_columns_above_3[user_columns_above_3 >= 100].sort_values(ascending=False).head(10)
+        top_users = user_columns_above_3[user_columns_above_3 >= 100].sort_values(ascending=False)
+
+    # Limit to top 10 users
+    top_users = top_users.head(10)
 
     fig, ax = plt.subplots(figsize=(16, 8))
     ax.bar(range(len(top_users)), top_users.values, color='black')
@@ -58,7 +61,7 @@ def analyze_twitter_users(df):
 
     # Set the x-axis tick labels
     top_user_names = df.iloc[top_users.index, 0].tolist()
-    ax.set_xticks(range(len(top_users)))
+    ax.set_xticks(range(len(top_user_names)))
     ax.set_xticklabels(top_user_names, rotation=90, fontsize=8)
 
     # Adjust the y-axis limits to ensure all bars are visible
