@@ -10,6 +10,15 @@ def analyze_twitter_users(df):
     # Identify the columns that should be used for the analysis
     analysis_columns = [col for col in columns if col not in ['username']]
 
+    # Convert the analysis columns to numeric data types
+    for col in analysis_columns:
+        try:
+            df[col] = df[col].astype(float)
+        except ValueError:
+            # If the column cannot be converted to float, skip it
+            analysis_columns.remove(col)
+            print(f"Skipping column '{col}' due to non-numeric data.")
+
     # Count the number of columns with values greater than 3 for each Social Media user
     user_columns_above_3 = df[analysis_columns].gt(3).sum(axis=1)
 
