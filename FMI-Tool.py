@@ -1,3 +1,8 @@
+import pandas as pd
+import streamlit as st
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 def analyze_twitter_users(df):
     # Count the number of columns with values greater than 3 for each Social Media user
     user_columns_above_3 = df.loc[:, 'Ukranazis':'Other (MH17 Or Skripal Or Crocus)'].gt(3).sum(axis=1)
@@ -29,15 +34,27 @@ def analyze_twitter_users(df):
     else:
         top_users = user_columns_above_3[user_columns_above_3 >= 8].sort_values(ascending=False).head(20)
 
-    top_user_df = pd.DataFrame({'Username': df.iloc[:len(top_users), 0], 'Columns_Above_3': top_users.values})
-    top_user_df = top_user_df.sort_values('Columns_Above_3', ascending=False)
-
     fig, ax = plt.subplots(figsize=(12, 6))
-    ax.bar(range(len(top_user_df)), top_user_df['Columns_Above_3'], color='black')
+    ax.bar(range(len(top_users)), top_users.values, color='black')
     ax.set_xlabel("Social Media User")
     ax.set_ylabel("Number of FMI-related indicators")
     ax.set_title("Top FMI-spreading Social Media Users")
     ax.tick_params(axis='x', rotation=90)
-    ax.set_xticks(range(len(top_user_df)))
-    ax.set_xticklabels(top_user_df['Username'].tolist())
+
+    # Create a list of the top user names in the correct order
+    top_user_names = df.iloc[top_users.index, 0].tolist()
+
+    ax.set_xticks(range(len(top_users)))
+    ax.set_xticklabels(top_user_names)
     st.pyplot(fig)
+
+# Streamlit app
+st.title("Social Media Data Analysis")
+
+# Upload the CSV file
+uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+
+if uploaded_file is not None:
+    # Read the CSV file into a Pandas DataFrame
+    df = pd.read_csv(uploaded_file)
+    analyze_twitter_users(df)
