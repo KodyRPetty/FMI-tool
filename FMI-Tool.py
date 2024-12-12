@@ -55,14 +55,13 @@ def analyze_twitter_users(df):
     ax.set_ylabel("Number of FMI-related indicators")
     ax.set_title("Top 10 FMI-spreading Social Media Users")
 
-    if len(top_users) <= 10:
-        # Create a list of the top user names in the correct order
-        top_user_names = df.iloc[top_users.index, 0].tolist()
-        ax.set_xticks(range(len(top_users)))
-        ax.set_xticklabels(top_user_names, rotation=90, fontsize=8)
-    else:
-        ax.set_xticks(range(len(top_users)))
-        ax.set_xticklabels([])
+    # Set the x-axis tick labels
+    top_user_names = df.iloc[top_users.index, 0].tolist()
+    ax.set_xticks(range(len(top_users)))
+    ax.set_xticklabels(top_user_names, rotation=90, fontsize=8)
+
+    # Adjust the y-axis limits to ensure all bars are visible
+    ax.set_ylim(bottom=0, top=top_users.max() + 1)
 
     st.pyplot(fig)
 
