@@ -4,8 +4,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 def analyze_twitter_users(df):
+    # Get the list of column names
+    columns = df.columns.tolist()
+
+    # Identify the columns that should be used for the analysis
+    analysis_columns = [col for col in columns if col not in ['username']]
+
     # Count the number of columns with values greater than 3 for each Social Media user
-    user_columns_above_3 = df.loc[:, 'Ukranazis':'Other (MH17 Or Skripal Or Crocus)'].gt(3).sum(axis=1)
+    user_columns_above_3 = df[analysis_columns].gt(3).sum(axis=1)
 
     # Count the number of Social Media users with at least 3 columns above 3
     num_users_above_3 = (user_columns_above_3 >= 3).sum()
@@ -28,11 +34,11 @@ def analyze_twitter_users(df):
 
     # Create a bar chart showing the top 20 Social Media users by number of columns above 3
     if likelihood == "FMI LOW likelihood":
-        top_users = user_columns_above_3[user_columns_above_3 < 3].sort_values(ascending=False).head(30)
+        top_users = user_columns_above_3[user_columns_above_3 < 3].sort_values(ascending=False).head(20)
     elif likelihood == "FMI MEDIUM likelihood":
-        top_users = user_columns_above_3[(user_columns_above_3 >= 3) & (user_columns_above_3 < 100)].sort_values(ascending=False).head(30)
+        top_users = user_columns_above_3[(user_columns_above_3 >= 3) & (user_columns_above_3 < 100)].sort_values(ascending=False).head(20)
     else:
-        top_users = user_columns_above_3[user_columns_above_3 >= 100].sort_values(ascending=False).head(30)
+        top_users = user_columns_above_3[user_columns_above_3 >= 100].sort_values(ascending=False).head(20)
 
     fig, ax = plt.subplots(figsize=(16, 8))
     ax.bar(range(len(top_users)), top_users.values, color='black')
@@ -42,7 +48,7 @@ def analyze_twitter_users(df):
     ax.tick_params(axis='x', rotation=90, labelsize=8)
 
     # Create a list of the top user names in the correct order
-    top_user_names = df.iloc[top_users.index, 1].tolist()
+    top_user_names = df.iloc[top_users.index, 0].tolist()
 
     ax.set_xticks(range(len(top_users)))
     ax.set_xticklabels(top_user_names)
