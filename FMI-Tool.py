@@ -42,24 +42,24 @@ def analyze_twitter_users(df):
     else:
         st.markdown(f"<div style='background-color:red;color:white;padding:10px;border-radius:5px;text-align:center;'>{likelihood} ({num_users_above_3} Social Media Users)</div>", unsafe_allow_html=True)
 
-    # Create a bar chart showing the top 9 Social Media users by number of columns above 3
+    # Create a bar chart showing the top 5 Social Media users by number of columns above 3
     if likelihood == "FMI LOW likelihood":
-        top_users = user_columns_above_3[user_columns_above_3 < 3].sort_values(ascending=False).head(9)
+        top_users = user_columns_above_3[user_columns_above_3 < 3].sort_values(ascending=False).head(5)
     elif likelihood == "FMI MEDIUM likelihood":
-        top_users = user_columns_above_3[(user_columns_above_3 >= 3) & (user_columns_above_3 < 100)].sort_values(ascending=False).head(9)
+        top_users = user_columns_above_3[(user_columns_above_3 >= 3) & (user_columns_above_3 < 100)].sort_values(ascending=False).head(5)
     else:
-        top_users = user_columns_above_3[user_columns_above_3 >= 100].sort_values(ascending=False).head(9)
+        top_users = user_columns_above_3[user_columns_above_3 >= 100].sort_values(ascending=False).head(5)
 
-    fig, ax = plt.subplots(figsize=(16, 8))
+    fig, ax = plt.subplots(figsize=(18, 10))
     ax.bar(range(len(top_users)), top_users.values, color='black')
-    ax.set_xlabel("Social Media User", fontsize=10)
+    ax.set_xlabel("Social Media User", fontsize=12)
     ax.set_ylabel("Number of FMI-related indicators")
-    ax.set_title("Top 9 FMI-spreading Social Media Users")
+    ax.set_title("Top 5 FMI-spreading Social Media Users")
 
     # Set the x-axis tick labels
     top_user_names = df.iloc[top_users.index, 0].tolist()
     ax.set_xticks(range(len(top_user_names)))
-    ax.set_xticklabels(top_user_names, rotation=90, fontsize=8)
+    ax.set_xticklabels(top_user_names, rotation=90, fontsize=10)
 
     # Adjust the y-axis limits to ensure all bars are visible
     if np.isfinite(top_users.max()):
